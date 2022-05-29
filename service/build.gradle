@@ -11,6 +11,9 @@ dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-reactive-routes'
     implementation 'io.quarkus:quarkus-arc'
+    implementation("io.quarkus:quarkus-vertx")
+    implementation("com.google.guava:guava:31.1-jre")
+    implementation("io.smallrye.reactive:smallrye-mutiny-vertx-web-client")
     testImplementation 'io.quarkus:quarkus-junit5'
 }
 

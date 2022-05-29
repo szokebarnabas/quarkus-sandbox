@@ -1,12 +1,12 @@
 {
   "request": {
     "method": "GET",
-    "url": "/some/thing"
+    "url": "/api/followers"
   },
   "response": {
     "status": 200,
     "jsonBody": {
-      "message": "hello"
+      "num_of_followers": 891
     },
     "headers": {
       "Content-Type": "application/json"

@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/following"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "num_of_following": 1217
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/my-tweets"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": [
+      {
+        "user": "Bob",
+        "is_retweet": true,
+        "message": "hey"
+      },
+      {
+        "user": "Jack",
+        "is_retweet": true,
+        "message": "howdy"
+      }
+    ],
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
