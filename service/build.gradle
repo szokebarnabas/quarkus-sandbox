@@ -1,0 +1,41 @@
+plugins {
+    id 'io.quarkus'
+}
+
+
+def quarkusPlatformGroupId = "io.quarkus.platform"
+def quarkusPlatformArtifactId = "quarkus-bom"
+def quarkusPlatformVersion = "2.9.2.Final"
+
+dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation 'io.quarkus:quarkus-reactive-routes'
+    implementation 'io.quarkus:quarkus-arc'
+    testImplementation 'io.quarkus:quarkus-junit5'
+}
+
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+//java {
+//    sourceCompatibility = JavaVersion.VERSION_18
+//    targetCompatibility = JavaVersion.VERSION_18
+//}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
+
+quarkusDev {
+    workingDir = rootProject.projectDir
+}
+
+task prepareKotlinBuildScriptModel {
+    //workaround
+}
+
