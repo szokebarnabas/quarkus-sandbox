@@ -8,10 +8,30 @@ plugins {
 dependencies {
     implementation 'io.gatling:gatling-core:3.7.6'
     implementation 'io.gatling:gatling-http:3.7.6'
+    implementation 'io.gatling:gatling-core-java:3.7.6'
+    implementation 'io.gatling.highcharts:gatling-charts-highcharts:3.7.6'
+//    implementation 'io.gatling:gatling-app:3.7.6'
+
 }
 
 gatling {
     // WARNING: options below only work when logback config file isn't provided
     logLevel = 'WARN' // logback root level
     logHttp = 'NONE' // set to 'ALL' for all HTTP traffic in TRACE, 'FAILURES' for failed HTTP traffic in DEBUG
+
+    simulations = {
+        include "**/*Simulation.java" // <2>
+    }
+
+
+    task runNft(type: JavaExec) {
+        description = 'Run a non-functional test'
+        group = 'NFT test'
+        classpath = sourceSets.test.runtimeClasspath
+        main = 'io.gatling.app.Gatling'
+        args = [
+                '--simulation', 'TestSimulation',
+                '--results-folder', "${buildDir}/gatling-results"
+        ]
+    }
 }
