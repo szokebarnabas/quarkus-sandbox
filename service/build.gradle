@@ -8,22 +8,19 @@ def quarkusPlatformArtifactId = "quarkus-bom"
 def quarkusPlatformVersion = "2.9.2.Final"
 
 dependencies {
+    implementation 'io.quarkus:quarkus-container-image-docker'
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-reactive-routes'
     implementation 'io.quarkus:quarkus-arc'
     implementation("io.quarkus:quarkus-vertx")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("io.smallrye.reactive:smallrye-mutiny-vertx-web-client")
-    testImplementation 'io.quarkus:quarkus-junit5'
+    implementation("io.quarkus:quarkus-micrometer-registry-prometheus")
+    testImplementation "io.quarkus:quarkus-junit5"
 }
 
 group 'com.example'
 version '1.0-SNAPSHOT'
-
-//java {
-//    sourceCompatibility = JavaVersion.VERSION_18
-//    targetCompatibility = JavaVersion.VERSION_18
-//}
 
 compileJava {
     options.encoding = 'UTF-8'

@@ -3,6 +3,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.unchecked.Unchecked;
 import io.vertx.mutiny.core.Vertx;
+import io.vertx.mutiny.core.buffer.Buffer;
+import io.vertx.mutiny.ext.web.client.HttpRequest;
 import io.vertx.mutiny.ext.web.client.WebClient;
 import io.vertx.mutiny.ext.web.client.predicate.ResponsePredicate;
 
@@ -23,7 +25,7 @@ public class TwitterClient {
     }
 
     public Uni<FollowersResponse> getFollowers() {
-        return webClient.get(8090, "localhost", "/api/followers")
+        return getRequest("/api/followers")
                 .send()
                 .log()
                 .onItem()
@@ -31,16 +33,20 @@ public class TwitterClient {
     }
 
     public Uni<FollowingResponse> getFollowing() {
-        return webClient.get(8090, "localhost", "/api/following")
+        return getRequest("/api/following")
                 .send()
                 .log()
                 .onItem()
                 .transform(bufferHttpResponse -> bufferHttpResponse.bodyAsJson(FollowingResponse.class));
     }
 
+    private HttpRequest<Buffer> getRequest(String requestURI) {
+        return webClient.get(8090, "mocks", requestURI);
+    }
+
     public Uni<List<Tweet>> getMyTweets() {
 
-        return webClient.get(8090, "localhost", "/api/my-tweets")
+        return getRequest("/api/my-tweets")
                 .expect(ResponsePredicate.JSON)
                 .expect(ResponsePredicate.SC_OK)
                 .send()

@@ -1,0 +1,58 @@
+version: '3.7'
+
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
+
+services:
+  alertmanager:
+    hostname: alertmanager
+    image: prom/alertmanager
+    volumes:
+      - ./monitoring/alertmanager/alertmanager.conf:/etc/alertmanager/alertmanager.conf
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.conf'
+    ports:
+      - 9093:9093
+
+  prometheus:
+    hostname: prometheus
+    image: prom/prometheus:v2.40.1
+#    network_mode: host
+    volumes:
+      - ./monitoring/prometheus/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    links:
+      - alertmanager:alertmanager
+    ports:
+      - 9090:9090
+    restart: always
+
+  grafana:
+    hostname: grafana
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - ./monitoring/grafana/grafana_datasources.yml:/etc/grafana/provisioning/datasources/all.yaml
+      - ./monitoring/grafana/grafana_config.ini:/etc/grafana/config.ini
+      - grafana_data:/var/lib/grafana
+    restart: always
+
+  service:
+    hostname: myservice
+    image: bs/service:1.0-SNAPSHOT
+    ports:
+      - 8080:8080
+    restart: always
+
+  mocks:
+    hostname: mocks
+    image: bs/wiremock:latest
+    ports:
+      - 8090:8090
+    restart: always

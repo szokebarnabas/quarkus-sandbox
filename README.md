@@ -62,4 +62,5 @@ If you want to learn more about building native executables, please consult http
 ```
 ./gradlew :mocks:run --args="--port=8090 --verbose" --info
 ./gradlew :service:quarkusDev --info
+./gradlew nft:runNft 
 ```

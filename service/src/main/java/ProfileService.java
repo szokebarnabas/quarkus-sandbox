@@ -1,9 +1,11 @@
+import io.micrometer.core.instrument.MeterRegistry;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.groups.UniAndGroup3;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 
@@ -17,12 +19,24 @@ public class ProfileService {
         this.twitterClient = twitterClient;
     }
 
+    Function<FollowingResponse, FollowingResponse> fun() {
+        return followingResponse -> {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            return followingResponse;
+        };
+    };
+
     public Uni<ProfileResponse> getProfile() {
         final Uni<FollowersResponse> followers = twitterClient.getFollowers()
                 .onFailure()
                 .recoverWithItem(() -> new FollowersResponse(0));
 
         final Uni<FollowingResponse> following = twitterClient.getFollowing()
+                .map(fun())
                 .onFailure()
                 .recoverWithItem(() -> new FollowingResponse(0));
 
